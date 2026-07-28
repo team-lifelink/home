@@ -512,6 +512,23 @@
     outline:2px solid var(--accent-deep);
     outline-offset:3px;
   }
+  .hero-content{
+  display:grid;
+  grid-template-columns:1fr 0.8fr;
+  gap:64px;
+  align-items:center;
+}
+
+.hero-icon{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.hero-icon img{
+  width:min(420px, 100%);
+  height:auto;
+}
 </style>
 </head>
 <body>
@@ -539,30 +556,44 @@
 <main>
   <!-- HERO -->
   <section class="hero" style="border-bottom:none;">
-    <div class="wrap">
-      <div class="eyebrow">About LifeLink</div>
-      <h1>Your <em>lifeline</em>, worn on the wrist.</h1>
-      <p class="hero-sub">LifeLink is an affordable smart wearable built to protect India's 158.7 million senior citizens — detecting falls and SOS calls, then alerting caregivers directly over cellular, with no smartphone required.</p>
-      <div class="hero-tags">
-        <span class="hero-tag">Seeking ₹5 Cr for 10% equity</span>
-        <span class="hero-tag">Make in India</span>
-      </div>
+  <div class="wrap">
+    <div class="hero-content">
 
-      <div class="pulse-wrap">
-        <svg class="pulse-svg" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
-          <path class="pulse-path" d="M0,45 L160,45 L200,45 L225,10 L250,80 L275,20 L300,45 L340,45 L360,45 L385,25 L405,65 L425,45 L460,45 L620,45 L645,45 L670,8 L695,82 L720,20 L745,45 L785,45 L800,45 L825,25 L845,65 L865,45 L1000,45"/>
-          <circle class="pulse-node" cx="0" cy="45" r="4"/>
-          <circle class="pulse-node" cx="460" cy="45" r="4"/>
-          <circle class="pulse-node" cx="1000" cy="45" r="4"/>
-        </svg>
-        <div class="pulse-labels">
-          <span>FALL DETECTED / SOS PRESSED</span>
-          <span>DEVICE ALERTS INSTANTLY</span>
-          <span>CAREGIVER NOTIFIED</span>
+      <div>
+        <div class="eyebrow">About LifeLink</div>
+        <h1>Your <em>lifeline</em>, worn on the wrist.</h1>
+        <p class="hero-sub">
+          LifeLink is an affordable smart wearable built to protect India's 158.7 million senior citizens — detecting falls and SOS calls, then alerting caregivers directly over cellular, with no smartphone required.
+        </p>
+
+        <div class="hero-tags">
+          <span class="hero-tag">Seeking ₹5 Cr for 10% equity</span>
+          <span class="hero-tag">Make in India</span>
         </div>
       </div>
+
+      <div class="hero-icon">
+        <img src="assets/icon.png" alt="LifeLink device icon">
+      </div>
+
     </div>
-  </section>
+
+    <div class="pulse-wrap">
+      <svg class="pulse-svg" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+        <path class="pulse-path" d="M0,45 L160,45 L200,45 L225,10 L250,80 L275,20 L300,45 L340,45 L360,45 L385,25 L405,65 L425,45 L460,45 L620,45 L645,45 L670,8 L695,82 L720,20 L745,45 L785,45 L800,45 L825,25 L845,65 L865,45 L1000,45"/>
+        <circle class="pulse-node" cx="0" cy="45" r="4"/>
+        <circle class="pulse-node" cx="460" cy="45" r="4"/>
+        <circle class="pulse-node" cx="1000" cy="45" r="4"/>
+      </svg>
+      <div class="pulse-labels">
+        <span>FALL DETECTED / SOS PRESSED</span>
+        <span>DEVICE ALERTS INSTANTLY</span>
+        <span>CAREGIVER NOTIFIED</span>
+      </div>
+    </div>
+
+  </div>
+</section>
 
   <!-- STORY / THE CRISIS -->
   <section id="story">
