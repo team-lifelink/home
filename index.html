@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeLink — Your Lifeline On A Wrist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6FAFB;
+    --bg-raised:#FFFFFF;
+    --ink:#0B1F2A;
+    --muted:#54707C;
+    --accent:#00CAE0;
+    --accent-deep:#017E96;
+    --line:#D8E6E9;
+    --mono:'IBM Plex Mono', monospace;
+    --display:'Manrope', sans-serif;
+    --body:'IBM Plex Sans', sans-serif;
+
+    /* border radii, matched to the pitch deck's shapes:
+       --r-compact  ~ founder-card roundRect (adj 5353 on a 2.80"x3.21" shape ≈ 14px)
+       --r-card     ~ average of the deck's larger content cards
+                      (Hidden Crisis / Working / Packages / Market cards, adj ~35-47px avg ≈ 40px)
+       --r-pill     ~ the deck's wide near-capsule bars (adj approaching 50% of the short side) */
+    --r-compact:14px;
+    --r-card:40px;
+    --r-pill:100px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,250,251,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:76px;
+  }
+  .logo{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:20px;
+    letter-spacing:-0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo img{
+    height:32px;
+    width:auto;
+  }
+  .logo-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 4px rgba(0,202,224,0.18);
+  }
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap:36px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--muted);
+  }
+  nav ul a{text-decoration:none; transition:color .2s;}
+  nav ul a:hover{color:var(--ink);}
+  .nav-cta{
+    font-size:14px;
+    font-weight:600;
+    padding:10px 20px;
+    border-radius:var(--r-pill);
+    /* background:var(--ink); */
+    color:var(--ink);
+    text-decoration:none;
+    transition:background .2s, transform .2s;
+    border: 1px solid var(--ink);
+  }
+  .nav-cta.primary {
+    background:var(--accent);
+    color:#fff;
+    border: none;
+
+  }
+  .nav-cta:hover.primary{background:var(--accent-deep); color:#fff; border: none;}
+  .nav-cta:hover{background:var(--ink); color:#fff; border: none;}
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 64px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:24px;height:1px;
+    background:var(--accent-deep);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(40px, 6vw, 76px);
+    letter-spacing:-0.03em;
+    line-height:1.02;
+    max-width:15ch;
+  }
+  h1 em{
+    font-style:normal;
+    color:var(--accent-deep);
+    position:relative;
+  }
+  .hero-sub{
+    margin-top:28px;
+    font-size:19px;
+    color:var(--muted);
+    max-width:52ch;
+  }
+  .hero-tags{
+    display:flex;
+    gap:12px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+  .hero-tag{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--accent-deep);
+    background:#E7FAFC;
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:var(--r-pill);
+  }
+
+  /* pulse line signature */
+  .pulse-wrap{
+    margin-top:64px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:28px 0;
+    position:relative;
+  }
+  .pulse-svg{
+    width:100%;
+    height:90px;
+    display:block;
+  }
+  .pulse-path{
+    fill:none;
+    stroke:var(--accent-deep);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:1400;
+    stroke-dashoffset:1400;
+    animation:draw 3.2s ease-out forwards, fade-hold 6s ease-in-out infinite;
+  }
+  @keyframes draw{
+    to{stroke-dashoffset:0;}
+  }
+  @keyframes fade-hold{
+    0%,60%{opacity:1;}
+    80%{opacity:0.35;}
+    100%{opacity:1;}
+  }
+  .pulse-node{
+    fill:var(--accent);
+  }
+  .pulse-labels{
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:0.04em;
+    margin-top:4px;
+  }
+
+  /* ---------- SECTION BASE ---------- */
+  section{
+    padding:88px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:48px;
+    margin-bottom:56px;
+  }
+  .section-tag{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+  h2{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(28px, 3.2vw, 38px);
+    letter-spacing:-0.02em;
+    max-width:16ch;
+  }
+  .section-body p{
+    color:var(--muted);
+    font-size:17px;
+    max-width:60ch;
+  }
+
+  /* ---------- STORY (the crisis) ---------- */
+  .story-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .story-grid p{
+    color:var(--muted);
+    font-size:17px;
+    margin-bottom:18px;
+  }
+  .story-grid p:last-child{margin-bottom:0;}
+  .stat-block{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:var(--r-card);
+    padding:40px 36px;
+  }
+  .stat-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .stat-row:last-child{border-bottom:none; padding-bottom:0;}
+  .stat-row:first-child{padding-top:0;}
+  .stat-num{
+    font-family:var(--mono);
+    font-size:30px;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .stat-label{
+    font-size:13px;
+    color:var(--muted);
+    text-align:right;
+    max-width:20ch;
+  }
+
+  /* ---------- HOW IT WORKS (chain) ---------- */
+  .chain{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+  }
+  .chain::before{
+    content:"";
+    position:absolute;
+    top:22px;
+    left:8%;
+    right:8%;
+    height:1px;
+    background:repeating-linear-gradient(to right, var(--accent) 0 8px, transparent 8px 16px);
+  }
+  .chain-step{
+    padding-right:32px;
+    position:relative;
+  }
+  .chain-num{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--bg-raised);
+    border:1px solid var(--accent);
+    color:var(--accent-deep);
+    font-family:var(--mono);
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:24px;
+    position:relative;
+    z-index:2;
+  }
+  .chain-step h3{
+    font-family:var(--display);
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .chain-step p{
+    color:var(--muted);
+    font-size:15px;
+  }
+
+  /* ---------- VALUES ---------- */
+  .values-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+  }
+  .value-card{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:var(--r-card);
+    padding:36px 32px;
+    transition:background .25s;
+  }
+  .value-card:hover{background:#F0FBFC;}
+  .value-mark{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent-deep);
+    margin-bottom:16px;
+    display:block;
+  }
+  .value-card h3{
+    font-family:var(--display);
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .value-card p{
+    color:var(--muted);
+    font-size:14.5px;
+  }
+
+  /* ---------- TEAM ---------- */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+    max-width:760px;
+  }
+  .team-card{
+    text-align:left;
+  }
+  .team-photo{
+    width:100%;
+    aspect-ratio:1;
+    border-radius:var(--r-compact);
+    background:linear-gradient(155deg, #0B1F2A 0%, var(--accent-deep) 130%);
+    margin-bottom:16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .team-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(0,202,224,0.55), transparent 55%);
+  }
+  .team-name{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:16px;
+  }
+  .team-role{
+    font-size:13px;
+    color:var(--muted);
+    font-family:var(--mono);
+    margin-top:2px;
+  }
+  .team-focus{
+    font-size:13.5px;
+    color:var(--muted);
+    margin-top:8px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    border-bottom:none;
+    padding:96px 0 88px;
+  }
+  .cta-box{
+    background:var(--ink);
+    border-radius:var(--r-card);
+    padding:64px 56px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .cta-box::before{
+    content:"";
+    position:absolute;
+    width:480px;height:480px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(0,202,224,0.25), transparent 70%);
+    top:-220px;
+    right:-160px;
+  }
+  .cta-box h2{
+    color:#fff;
+    max-width:none;
+    margin:0 auto 16px;
+  }
+  .cta-box p{
+    color:#A9C1C9;
+    font-size:16px;
+    max-width:48ch;
+    margin:0 auto 32px;
+  }
+  .cta-buttons{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#04262C;
+    font-weight:600;
+    font-size:15px;
+    padding:14px 28px;
+    border-radius:var(--r-pill);
+    text-decoration:none;
+    transition:transform .2s, background .2s;
+  }
+  .btn-primary:hover{background:#3adcee; transform:translateY(-2px);}
+  .btn-secondary{
+    border:1px solid rgba(255,255,255,0.25);
+    color:#fff;
+    font-weight:600;
+    font-size:15px;
+    padding:14px 28px;
+    border-radius:var(--r-pill);
+    text-decoration:none;
+    transition:background .2s;
+  }
+  .btn-secondary:hover{background:rgba(255,255,255,0.08);}
+
+  footer{
+    padding:40px 0;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .footer-links{
+    display:flex;
+    gap:24px;
+  }
+  .footer-links a{text-decoration:none; color:var(--muted); transition:color .2s;}
+  .footer-links a:hover{color:var(--ink);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    nav ul{display:none;}
+    .section-head{grid-template-columns:1fr;}
+    .story-grid{grid-template-columns:1fr;}
+    .chain{grid-template-columns:1fr; row-gap:40px;}
+    .chain::before{display:none;}
+    .values-grid{grid-template-columns:1fr;}
+    .team-grid{grid-template-columns:repeat(2, 1fr); max-width:none;}
+    .cta-box{padding:48px 28px;}
+    .cta-buttons{flex-direction:column;}
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent-deep);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+  <div class="logo">
+    <img src="assets/logo.png">
+  </div>
+
+  <ul>
+    <li><a href="#story">The problem</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#values">Why LifeLink</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+
+  <div class="nav-links">
+    <a class="nav-cta" href="#cta">Investor Deck</a>
+    <a class="nav-cta primary" href="#cta">Device Setup</a>
+  </div>
+</nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="eyebrow">About LifeLink</div>
+      <h1>Your <em>lifeline</em>, worn on the wrist.</h1>
+      <p class="hero-sub">LifeLink is an affordable smart wearable built to protect India's 158.7 million senior citizens — detecting falls and SOS calls, then alerting caregivers directly over cellular, with no smartphone required.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">Seeking ₹5 Cr for 10% equity</span>
+        <span class="hero-tag">Make in India</span>
+      </div>
+
+      <div class="pulse-wrap">
+        <svg class="pulse-svg" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+          <path class="pulse-path" d="M0,45 L160,45 L200,45 L225,10 L250,80 L275,20 L300,45 L340,45 L360,45 L385,25 L405,65 L425,45 L460,45 L620,45 L645,45 L670,8 L695,82 L720,20 L745,45 L785,45 L800,45 L825,25 L845,65 L865,45 L1000,45"/>
+          <circle class="pulse-node" cx="0" cy="45" r="4"/>
+          <circle class="pulse-node" cx="460" cy="45" r="4"/>
+          <circle class="pulse-node" cx="1000" cy="45" r="4"/>
+        </svg>
+        <div class="pulse-labels">
+          <span>FALL DETECTED / SOS PRESSED</span>
+          <span>DEVICE ALERTS INSTANTLY</span>
+          <span>CAREGIVER NOTIFIED</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY / THE CRISIS -->
+  <section id="story">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">The problem</div>
+        <h2>The hidden crisis of senior falls in India.</h2>
+      </div>
+      <div class="story-grid">
+        <div>
+          <p>1 in 3 senior citizens in India suffers a fall every single year — many of them living alone, with no one nearby to respond. When it happens, families face an average delay of 2–4 hours before emergency help arrives.</p>
+          <p>Devices built to solve this already exist, but they cost an exorbitant ₹8,000 to ₹10,000 and are far too complicated for middle-class Indian families to adopt at scale.</p>
+          <p>Our mission is simple yet vital: to deliver instant, affordable emergency response support for elderly citizens, so every senior gets immediate assistance in critical life-or-death moments, no matter where they are.</p>
+        </div>
+        <div class="stat-block">
+          <div class="stat-row">
+            <span class="stat-num">158.7M</span>
+            <span class="stat-label">Senior citizens across India, with millions living alone</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-num">1 in 3</span>
+            <span class="stat-label">Seniors suffers a fall every single year</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-num">2–4 hrs</span>
+            <span class="stat-label">Average delay in receiving emergency assistance today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">How it works</div>
+        <h2>Event to caregiver, with no phone in between.</h2>
+      </div>
+      <div class="chain">
+        <div class="chain-step">
+          <div class="chain-num">01</div>
+          <h3>Fall detected, or SOS pressed</h3>
+          <p>The wearable senses a fall automatically, or the wearer presses the SOS button directly on the device.</p>
+        </div>
+        <div class="chain-step">
+          <div class="chain-num">02</div>
+          <h3>Device alerts instantly</h3>
+          <p>A local buzzer sounds right away while the device processes the event and reaches out over its own direct cellular connection.</p>
+        </div>
+        <div class="chain-step">
+          <div class="chain-num">03</div>
+          <h3>Caregiver notified</h3>
+          <p>Emergency contacts are alerted instantly by SMS and call — standalone cellular means no smartphone is ever needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES / WHY LIFELINK -->
+  <section id="values">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Why LifeLink</div>
+        <h2>Built to be affordable, accessible, and standalone.</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <span class="value-mark">/ 01</span>
+          <h3>Priced for the middle class</h3>
+          <p>₹6,500 for the Basic plan, against ₹8,000+ and ₹10,000+ for comparable devices from DrRing and Ansfrid SmartCare.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-mark">/ 02</span>
+          <h3>Built for every user</h3>
+          <p>Voice alerts for the visually impaired, vibration alerts for the hearing impaired, and support across 7 Indian regional languages.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-mark">/ 03</span>
+          <h3>Standalone by design</h3>
+          <p>Direct cellular connectivity means LifeLink works on its own — no paired smartphone required, unlike either competitor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">The founders</div>
+        <h2>Together, building LifeLink for millions of seniors.</h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-photo"></div>
+          <div class="team-name">Pranika Bhardwaj</div>
+          <div class="team-role">CEO</div>
+          <div class="team-focus">Vision and Strategic Partnerships</div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo"></div>
+          <div class="team-name">Lakshita Arora</div>
+          <div class="team-role">COO</div>
+          <div class="team-focus">Operations and Go-To-Market Execution</div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo"></div>
+          <div class="team-name">Advait Malli</div>
+          <div class="team-role">CTO</div>
+          <div class="team-focus">Hardware Engineering and Software Architecture</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <h2>Revolutionizing senior safety across India.</h2>
+        <p>We're raising ₹5 Crore for 10% equity, plus strategic partnerships to scale LifeLink across India. Made in India, for every Indian family.</p>
+        <div class="cta-buttons">
+          <a class="btn-primary" href="#">Request the investor deck</a>
+          <a class="btn-secondary" href="#">Talk to the founders</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 LifeLink, Inc.</span>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
